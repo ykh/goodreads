@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/auth/', TokenObtainPairView.as_view(), name='auth_token'),
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='auth_refresh'),
     path('api/', include('users.urls')),
+    path('api/', include('books.urls')),
 ]
