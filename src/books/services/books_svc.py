@@ -25,7 +25,7 @@ class BooksService:
         'book_id',
         exception=exceptions.ValidationError,
         message='Given book id is not valid.',
-        is_optional=True,
+        is_optional=False,
     )
     def retrieve(self, book_id: str, requester: User) -> Book:
         books_repo = BooksRepo(requester=requester)

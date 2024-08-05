@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from books.services.books_svc import BooksService
-from books.views.serializers.books__view_srl import (
+from books.views.serializers.books_view_srl import (
     BooksViewListTRF,
     BooksViewRetrieveTRF,
 )
