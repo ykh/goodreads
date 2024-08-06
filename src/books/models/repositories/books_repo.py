@@ -1,8 +1,9 @@
 from typing import List
 
-from django.db.models import Count, Q
+from django.db.models import Count, Exists, OuterRef, Q
 from rest_framework import exceptions
 
+from books.models import Bookmark
 from books.models.book import Book
 from books.models.repositories.serializers.books_repo_srl import BooksRepoListVLD
 from goodreads.utils.pagination import paginate_queryset
@@ -21,8 +22,18 @@ class BooksRepo:
         query = Q()
 
         queryset = Book.objects.filter(query).annotate(
-            bookmark_count=Count('bookmarks')
+            bookmark_count=Count('bookmarks'),
         )
+
+        if self.requester.is_authenticated:
+            bookmarks_subquery = Bookmark.objects.filter(
+                user=self.requester,
+                book=OuterRef('pk'),
+            )
+
+            queryset = queryset.annotate(
+                is_bookmarked=Exists(bookmarks_subquery),
+            )
 
         return queryset
 
