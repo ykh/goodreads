@@ -4,6 +4,7 @@ from books.models import Book, Bookmark
 from books.models.repositories.bookmarks_repo import BookmarksRepo
 from goodreads.utils.singleton import singleton
 from goodreads.utils.validators import validate_uuid
+from reviews.models import Review
 from users.models import User
 
 
@@ -17,6 +18,11 @@ class BookmarksService:
     )
     def create(self, book_id: str, requester: User) -> Bookmark:
         bookmarks_repo = BookmarksRepo(requester=requester)
+
+        if Review.objects.filter(user=requester.id, book=book_id).exists():
+            raise exceptions.ValidationError(
+                'You can not bookmark this book because you have already reviewed it.',
+            )
 
         try:
             user = User.objects.get(id=requester.id)
