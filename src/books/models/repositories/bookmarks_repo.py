@@ -27,3 +27,13 @@ class BookmarksRepo:
             raise exceptions.NotFound('Book not found.')
         except Bookmark.DoesNotExist:
             raise exceptions.NotFound('Bookmark not found.')
+
+    def unbookmark_if_exists(self, user_id: str, book_id: str):
+        try:
+            bookmark = Bookmark.objects.get(user=user_id, book=book_id)
+        except Bookmark.DoesNotExist:
+            return False
+
+        bookmark.delete()
+
+        return True

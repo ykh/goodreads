@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='auth_refresh'),
     path('api/', include('users.urls')),
     path('api/', include('books.urls')),
+    path('api/', include('reviews.urls')),
 ]
