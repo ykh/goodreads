@@ -5,6 +5,7 @@ class BooksViewListTRF(serializers.Serializer):
     id = serializers.UUIDField()
     title = serializers.CharField()
     bookmark_count = serializers.IntegerField()
+    is_bookmarked = serializers.BooleanField(default=False)
 
 
 class BooksViewReviewSerializer(serializers.Serializer):
