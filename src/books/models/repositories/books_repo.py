@@ -54,6 +54,7 @@ class BooksRepo:
         result = {
             'id': book.id,
             'title': book.title,
+            'summary': book.summary,
             'comment_count': further_info_queryset['comment_count'],
             'rate_count': further_info_queryset['rate_count'],
             'average_rate': further_info_queryset['average_rate'],

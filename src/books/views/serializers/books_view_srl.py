@@ -16,6 +16,7 @@ class BooksViewReviewSerializer(serializers.Serializer):
 class BooksViewRetrieveTRF(serializers.Serializer):
     id = serializers.UUIDField()
     title = serializers.CharField()
+    summary = serializers.CharField()
     comment_count = serializers.IntegerField()
     rate_count = serializers.IntegerField()
     average_rate = serializers.FloatField()
