@@ -1,6 +1,6 @@
 from typing import List
 
-from django.db.models import Q
+from django.db.models import Count, Q
 from rest_framework import exceptions
 
 from books.models.book import Book
@@ -20,7 +20,9 @@ class BooksRepo:
 
         query = Q()
 
-        queryset = Book.objects.filter(query)
+        queryset = Book.objects.filter(query).annotate(
+            bookmark_count=Count('bookmarks')
+        )
 
         return queryset
 
