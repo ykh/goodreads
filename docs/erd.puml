@@ -1,0 +1,51 @@
+@startuml
+entity User {
+    + id: UUID
+    + email: Email
+    + credit: Decimal
+    + updated_at: DateTime
+    --
+    + __str__(): str
+}
+
+entity Book {
+    + id: UUID
+    + title: str
+    + summary: Text
+    + author: str
+    + isbn: str
+    + created_at: DateTime
+    + updated_at: DateTime
+    --
+    + __str__(): str
+}
+
+entity Bookmark {
+    + id: UUID
+    + created_at: DateTime
+    --
+    + __str__(): str
+    --
+    * user_id: UUID <<FK>>
+    * book_id: UUID <<FK>>
+}
+
+entity Review {
+    + id: UUID
+    + comment: Text
+    + rate: PositiveInteger
+    + created_at: DateTime
+    + updated_at: DateTime
+    --
+    + __str__(): str
+    --
+    * user_id: UUID <<FK>>
+    * book_id: UUID <<FK>>
+}
+
+User "1" -- "0..*" Bookmark : bookmarks
+User "1" -- "0..*" Review : reviews
+Book "1" -- "0..*" Bookmark : bookmarks
+Book "1" -- "0..*" Review : reviews
+
+@enduml
