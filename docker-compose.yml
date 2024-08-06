@@ -1,0 +1,47 @@
+services:
+  backend-dev:
+    build:
+      context: .
+      target: backend-dev
+      dockerfile: ./Dockerfile
+    networks:
+      - goodreads_network
+    ports:
+      - "${API_EXPOSED_PORT}:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./src:/goodreads/src
+      - ./media:/goodreads/media
+    restart: always
+    env_file:
+      - ./envs/app.env
+    user: "${USER_INFO}"
+
+  db:
+    image: 'postgres:16-alpine'
+    networks:
+      - goodreads_network
+    ports:
+      - "${DB_EXPOSED_PORT}:5432"
+    volumes:
+      - goodreads_db_volume:/var/lib/postgresql/data
+    restart: always
+    env_file:
+      - envs/db.env
+
+  adminer:
+    image: adminer:latest
+    networks:
+      - goodreads_network
+    ports:
+      - "${ADMINER_EXPOSED_PORT}:8080"
+    restart: always
+
+volumes:
+  goodreads_db_volume:
+
+networks:
+  goodreads_network:
+    external: true
+    name: goodreads_network
